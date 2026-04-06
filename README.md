@@ -1,6 +1,8 @@
+![Terraform CI](https://github.com/theHashier/terraform-aws-networking-lab/actions/workflows/terraform.yml/badge.svg)
+
 # Terraform AWS Networking Lab
 
-Production-style AWS networking architecture built with Terraform, featuring public/private subnets, NAT Gateway, secure EC2 access via SSM, and remote state management using S3 and DynamoDB.
+Production-style AWS networking architecture built with Terraform, featuring public/private subnets, NAT Gateway, secure EC2 access via SSM, remote state management using S3 and DynamoDB, and CI/CD automation with GitHub Actions.
 
 ---
 
@@ -46,6 +48,34 @@ Internet
 
 ---
 
+## CI/CD Pipeline
+
+This project includes a GitHub Actions pipeline that automates Terraform workflows.
+
+### Behavior
+
+* Pull Request:
+
+  * Runs `terraform fmt`, `validate`, and `plan`
+
+* Push to `main`:
+
+  * Runs full pipeline including `terraform apply`
+
+### Workflow Location
+
+```
+.github/workflows/terraform.yml
+```
+
+### Purpose
+
+* Ensures infrastructure is always validated before deployment
+* Automates provisioning and updates
+* Follows Infrastructure as Code best practices
+
+---
+
 ## Remote State Architecture
 
 Terraform state is stored remotely to support team collaboration and prevent conflicts.
@@ -82,6 +112,7 @@ DynamoDB (locks state during operations)
 * AWS Systems Manager (SSM) instead of SSH
 * Terraform modules and environment separation
 * Remote state management (S3 + DynamoDB locking)
+* CI/CD with GitHub Actions
 
 ---
 
@@ -107,6 +138,7 @@ terraform-labs/
 * Private instances use a NAT Gateway for outbound internet access.
 * SSM is used instead of SSH for secure, keyless access via IAM.
 * Terraform state is stored remotely in S3 and protected with DynamoDB locking.
+* CI/CD pipeline automates infrastructure validation and deployment.
 
 ---
 
@@ -196,6 +228,7 @@ This project demonstrates the ability to:
 * Implement secure access patterns
 * Structure Terraform code using modules
 * Use remote state with locking
+* Automate infrastructure with CI/CD
 * Debug real-world connectivity issues
 * Build production-style cloud infrastructure
 
@@ -203,7 +236,7 @@ This project demonstrates the ability to:
 
 ## Future Improvements
 
-* CI/CD pipeline with GitHub Actions
+* Improve CI/CD with approval steps and environments
 * Multi-environment support (dev/stage/prod)
 * Load balancer and auto scaling
 * Terraform workspaces
