@@ -16,23 +16,23 @@ module "vpc" {
 }
 
 module "ec2_public" {
-  source            = "../../modules/ec2"
-  subnet_id         = module.vpc.public_subnet_id
-  vpc_id            = module.vpc.vpc_id
-  security_group_id = aws_security_group.web.id
-  instance_profile  = "InstanceRole"
+  source              = "../../modules/ec2"
+  subnet_id           = module.vpc.public_subnet_id
+  vpc_id              = module.vpc.vpc_id
+  security_group_id   = aws_security_group.web.id
+  instance_profile    = "InstanceRole"
   associate_public_ip = true
-  name              = "public-instance"
+  name                = "public-instance"
 }
 
 module "ec2_private" {
-  source            = "../../modules/ec2"
-  subnet_id         = module.vpc.private_subnet_id
-  vpc_id            = module.vpc.vpc_id
-  security_group_id = aws_security_group.web.id
-  instance_profile  = "InstanceRole"
+  source              = "../../modules/ec2"
+  subnet_id           = module.vpc.private_subnet_id
+  vpc_id              = module.vpc.vpc_id
+  security_group_id   = aws_security_group.web.id
+  instance_profile    = "InstanceRole"
   associate_public_ip = false
-  name              = "private-instance"
+  name                = "private-instance"
 }
 
 resource "aws_security_group" "web" {
