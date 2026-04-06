@@ -1,10 +1,14 @@
 # Terraform AWS Networking Lab
 
-This project demonstrates a production-style AWS networking architecture built with Terraform.
+Production-style AWS networking architecture built with Terraform, featuring public/private subnets, NAT Gateway, and secure EC2 access via SSM.
 
-It includes a custom VPC, public and private subnets, internet access via an Internet Gateway and NAT Gateway, and EC2 instances deployed in both layers.
+---
 
-The goal of this lab is to showcase hands-on understanding of cloud networking, infrastructure as code, and secure access patterns used in real-world environments.
+## Why This Project
+
+This project was built to demonstrate real-world AWS networking concepts and hands-on DevOps skills in preparation for cloud engineering roles.
+
+It showcases how to design, deploy, and debug infrastructure using Infrastructure as Code (Terraform).
 
 ---
 
@@ -23,14 +27,33 @@ The goal of this lab is to showcase hands-on understanding of cloud networking, 
 
 ---
 
+## Architecture Diagram
+
+```text
+Internet
+   │
+   ▼
+[ Internet Gateway ]
+   │
+[ Public Subnet ]
+   │        └── EC2 (public, nginx)
+   │
+[ NAT Gateway ]
+   │
+[ Private Subnet ]
+   └── EC2 (SSM access only)
+```
+
+---
+
 ## Key Concepts Demonstrated
 
 * Public vs Private Subnets
 * Internet Gateway vs NAT Gateway
 * Route Tables and Traffic Flow
 * Security Groups and Least Privilege
-* AWS Systems Manager (SSM) for secure access
-* Terraform modules and environment structure
+* AWS Systems Manager (SSM) instead of SSH
+* Terraform modules and environment separation
 
 ---
 
@@ -54,7 +77,7 @@ terraform-labs/
 * Public EC2 instances receive a public IP and are reachable from the internet.
 * Private EC2 instances do not have a public IP and cannot be accessed directly.
 * Private instances use a NAT Gateway for outbound internet access.
-* SSM is used instead of SSH for secure access without opening ports.
+* SSM is used instead of SSH for secure, keyless access via IAM.
 
 ---
 
@@ -83,11 +106,30 @@ terraform init
 terraform apply
 ```
 
-### Access
+---
+
+## Outputs
+
+After apply:
+
+```
+terraform output
+```
+
+Example:
+
+```
+web_public_ip = "18.xxx.xxx.xxx"
+```
+
+---
+
+## Access
 
 * Public EC2:
 
   * Open browser using public IP
+
 * Private EC2:
 
   * Connect via AWS Systems Manager (Session Manager)
@@ -100,7 +142,19 @@ terraform apply
 terraform destroy
 ```
 
-Important: This project creates a NAT Gateway which incurs cost. Always destroy resources after testing.
+⚠️ This project creates a NAT Gateway which incurs cost. Always destroy resources after testing.
+
+---
+
+## Interview Topics Covered
+
+This project helps answer common DevOps interview questions:
+
+* What is the difference between Internet Gateway and NAT Gateway?
+* Why can’t a private instance be accessed from the internet?
+* How does NAT Gateway enable outbound connectivity?
+* Why use SSM instead of SSH?
+* How do you structure Terraform projects using modules?
 
 ---
 
@@ -112,6 +166,7 @@ This project demonstrates the ability to:
 * Implement secure access patterns
 * Structure Terraform code using modules
 * Debug real-world connectivity issues
+* Build production-style cloud infrastructure
 
 ---
 
