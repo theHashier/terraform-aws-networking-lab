@@ -1,6 +1,6 @@
 # Terraform AWS Networking Lab
 
-Production-style AWS networking architecture built with Terraform, featuring public/private subnets, NAT Gateway, and secure EC2 access via SSM.
+Production-style AWS networking architecture built with Terraform, featuring public/private subnets, NAT Gateway, secure EC2 access via SSM, and remote state management using S3 and DynamoDB.
 
 ---
 
@@ -8,7 +8,7 @@ Production-style AWS networking architecture built with Terraform, featuring pub
 
 This project was built to demonstrate real-world AWS networking concepts and hands-on DevOps skills in preparation for cloud engineering roles.
 
-It showcases how to design, deploy, and debug infrastructure using Infrastructure as Code (Terraform).
+It showcases how to design, deploy, and debug infrastructure using Infrastructure as Code (Terraform) following production best practices.
 
 ---
 
@@ -29,7 +29,7 @@ It showcases how to design, deploy, and debug infrastructure using Infrastructur
 
 ## Architecture Diagram
 
-```text
+```
 Internet
    │
    ▼
@@ -46,6 +46,33 @@ Internet
 
 ---
 
+## Remote State Architecture
+
+Terraform state is stored remotely to support team collaboration and prevent conflicts.
+
+* State storage: Amazon S3
+* State locking: Amazon DynamoDB
+* Versioning enabled for recovery
+
+### How it works
+
+```
+Terraform
+   ↓
+S3 (stores terraform.tfstate)
+   ↓
+DynamoDB (locks state during operations)
+```
+
+### Benefits
+
+* Prevents concurrent Terraform runs
+* Protects against state corruption
+* Enables team collaboration
+* Allows rollback via versioning
+
+---
+
 ## Key Concepts Demonstrated
 
 * Public vs Private Subnets
@@ -54,6 +81,7 @@ Internet
 * Security Groups and Least Privilege
 * AWS Systems Manager (SSM) instead of SSH
 * Terraform modules and environment separation
+* Remote state management (S3 + DynamoDB locking)
 
 ---
 
@@ -78,6 +106,7 @@ terraform-labs/
 * Private EC2 instances do not have a public IP and cannot be accessed directly.
 * Private instances use a NAT Gateway for outbound internet access.
 * SSM is used instead of SSH for secure, keyless access via IAM.
+* Terraform state is stored remotely in S3 and protected with DynamoDB locking.
 
 ---
 
@@ -155,6 +184,7 @@ This project helps answer common DevOps interview questions:
 * How does NAT Gateway enable outbound connectivity?
 * Why use SSM instead of SSH?
 * How do you structure Terraform projects using modules?
+* Why use remote state and how does locking work?
 
 ---
 
@@ -165,6 +195,7 @@ This project demonstrates the ability to:
 * Design AWS networking from scratch
 * Implement secure access patterns
 * Structure Terraform code using modules
+* Use remote state with locking
 * Debug real-world connectivity issues
 * Build production-style cloud infrastructure
 
@@ -172,10 +203,10 @@ This project demonstrates the ability to:
 
 ## Future Improvements
 
-* Remote state with S3 and DynamoDB locking
 * CI/CD pipeline with GitHub Actions
 * Multi-environment support (dev/stage/prod)
 * Load balancer and auto scaling
+* Terraform workspaces
 
 ---
 
